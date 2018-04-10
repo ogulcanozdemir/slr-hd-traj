@@ -7,6 +7,8 @@ from pipeline.features.descriptors.hof import extract_hof_from_flow_seq, calc_op
 from pipeline.features.descriptors.mbh import extract_mbh_from_flow_seq
 from pipeline.encoding import generate_fisher_vector
 
+from pipeline.features.extractor import Extractor
+
 from parameter_helper import ParameterHelper
 from time import clock
 from data.data_helper import DataHelper, DataSample
@@ -16,7 +18,7 @@ import numpy as np
 import json
 
 
-class DescExtractor:
+class DescExtractor(Extractor):
 
     descriptors_path = None
 

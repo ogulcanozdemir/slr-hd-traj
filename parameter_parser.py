@@ -3,13 +3,21 @@ import argparse
 
 class ParameterParser:
 
+    params = None
+
     def __init__(self, exp_type):
         if exp_type == 'idt':
-            self.parse_arguments_idt()
+            self.params = self.parse_arguments_idt()
 
     @staticmethod
     def parse_arguments_idt():
         parser = argparse.ArgumentParser(description='IDT training')
+        parser.add_argument('-dp', action='store', dest='data_path', help='data input path')
+        parser.add_argument('-trp', action='store', dest='training_split_path', help='training_split_path')
+        parser.add_argument('-tsp', action='store', dest='test_split_path', help='test split path')
+        parser.add_argument('-ep', action='store', dest='experiment_path', help='experiment path')
+        parser.add_argument('-fp', action='store', dest='feature_path', help='feature path')
+        parser.add_argument('-kf', action='store', type=int, dest='key_frames', help='has key frames??')
 
         params = parser.parse_args()
         for arg in vars(params):
