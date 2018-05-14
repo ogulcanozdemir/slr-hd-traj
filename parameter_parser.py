@@ -17,7 +17,7 @@ class ParameterParser:
         parser.add_argument('-tsp', action='store', dest='test_split_path', help='test split path')
         parser.add_argument('-ep', action='store', dest='experiment_path', help='experiment path')
         parser.add_argument('-kf', action='store', type=int, dest='key_frames', help='has key frames??')
-        parser.add_argument('-tl', action='store', type=int, dest='traj_length', help='trajectory length')
+        parser.add_argument('-tl', action='store', type=int, dest='trajectory_length', help='trajectory length')
         parser.add_argument('-nt', action='store', type=int, dest='temporal_stride', help='temporal stride')
         parser.add_argument('-k', action='store', type=int, dest='num_clusters', help='number of clusters for gmm')
 

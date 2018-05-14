@@ -28,7 +28,7 @@ class DataHelper:
         self.experiment_path = params.experiment_path
         self.training_split_path = params.training_split_path
         self.test_split_path = params.test_split_path
-        self.feature_path = os.path.join(self.experiment_path, exp_type+'_l{}_t{}'.format(params.traj_length, params.temporal_stride))
+        self.feature_path = os.path.join(self.experiment_path, exp_type+'_l{}_t{}'.format(params.trajectory_length, params.temporal_stride))
         self.save_path = os.path.join(self.feature_path, 'k{}'.format(params.num_clusters))
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
