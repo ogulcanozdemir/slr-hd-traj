@@ -37,7 +37,7 @@ class Extractor:
     @staticmethod
     def save_features_to_pickle(filename, file):
         with open(filename + '.pickle', 'wb') as fd:
-            pickle.dump(file, fd)
+            pickle.dump(file, fd, protocol=4)
 
     @staticmethod
     def load_features_from_pickle(file):
