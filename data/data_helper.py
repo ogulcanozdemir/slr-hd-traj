@@ -23,15 +23,15 @@ class DataHelper:
     train_labels = None
     test_labels = None
 
-    def __init__(self, params):
-        self.experiment_id = time.strftime('%Y%m%d-%H%M%S')
+    def __init__(self, params, exp_type):
         self.data_path = params.data_path
         self.experiment_path = params.experiment_path
         self.training_split_path = params.training_split_path
         self.test_split_path = params.test_split_path
-        self.save_path = os.path.join(self.experiment_path, 'experiment-'+self.experiment_id)
-        os.makedirs(self.save_path)
-        self.feature_path = params.feature_path
+        self.feature_path = os.path.join(self.experiment_path, exp_type+'_l{}_t{}'.format(params.traj_length, params.temporal_stride))
+        self.save_path = os.path.join(self.feature_path, 'k{}'.format(params.num_clusters))
+        if not os.path.exists(self.save_path):
+            os.makedirs(self.save_path)
 
     def prepare_splits(self):
         self.training_split = []
@@ -80,8 +80,8 @@ class DataHelper:
 
 class ToyDataHelper(DataHelper):
 
-    def __init__(self, params):
-        DataHelper.__init__(self, params)
+    def __init__(self, params, exp_type):
+        DataHelper.__init__(self, params, exp_type)
         self.key_frames = params.key_frames == 1 if True else False
         self.prepare_splits()
 

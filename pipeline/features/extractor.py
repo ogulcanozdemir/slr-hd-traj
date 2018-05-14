@@ -24,7 +24,7 @@ class Extractor:
         data_fv = []
 
         for d in data:
-            pca_d = pca.transform(d)
+            pca_d = pca.transform(d[2])
             fv_d = generate_fisher_vector(pca_d, gmm['means'], gmm['covars'], gmm['priors'])
             data_fv.append(np.transpose(fv_d))
 
@@ -54,10 +54,20 @@ class Extractor:
 
         return features
 
-    def prepare_features(self):
+    def clear_train_features(self):
+        self.train_hog = []
+        self.train_hof = []
+        self.train_mbh = []
+
+    def clear_test_features(self):
+        self.test_hog = []
+        self.test_hof = []
+        self.test_mbh = []
+
+    def prepare_train_features(self):
         pass
 
-    def prepare_split_features(self, split, save_file):
+    def prepare_test_features(self):
         pass
 
     def set_features(self, return_dict=False):

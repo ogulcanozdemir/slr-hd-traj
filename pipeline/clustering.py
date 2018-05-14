@@ -3,10 +3,7 @@ from cyvlfeat.kmeans import kmeans
 
 
 def generate_gmms(X, _clusters=64):
-    means, covars, priors, ll, posteriors = gmm(X,
-                                                n_clusters=_clusters,
-                                                max_num_iterations=10000,
-                                                verbose=True)
+    means, covars, priors, ll, posteriors = gmm(X, n_clusters=_clusters, max_num_iterations=10000, verbose=False)
 
     model = {
         'priors': priors,
