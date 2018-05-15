@@ -24,6 +24,7 @@ def prepare_data(extrc, data_helper, type):
     train_fisher = extrc.get_fisher_vectors(extrc.train_data[type], model_pca, model_gmm)
     extrc.clear_train_features()
 
+    extrc.read_test_features(type)
     extrc.prepare_test_features(type)
     test_fisher = extrc.get_fisher_vectors(extrc.train_data[type], model_pca, model_gmm)
     extrc.clear_test_features()
