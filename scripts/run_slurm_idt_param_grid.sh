@@ -15,7 +15,7 @@ do
 		do
 			echo "cluster=$k, trajectory_length=$tl, tempora_stride=$nt"
 			sbatch slurm_idt_cpu.sh\
-				-dp=/raid/users/oozdemir/data/ToyDataset \
+				-dp=/raid/users/oozdemir/data/ToyDataset_features \
 				-trp=/raid/users/oozdemir/code/tm-shd-slr/data/splits/train.txt \
 				-tsp=/raid/users/oozdemir/code/tm-shd-slr/data/splits/test.txt \
 				-ep=/raid/users/oozdemir/code/tm-shd-slr/experiments \

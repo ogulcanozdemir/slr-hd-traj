@@ -20,6 +20,7 @@ def prepare_data(extrc, data_helper, type):
     model_gmm = generate_gmms(train_pca, _clusters=params.num_clusters)
     extrc.save_features_to_pickle(data_helper.save_path + sep + 'model_' + type, {'pca': model_pca, 'gmm': model_gmm})
 
+    extrc.prepare_train_features(type, return_dict=True)
     train_fisher = extrc.get_fisher_vectors(extrc.train_data[type], model_pca, model_gmm)
     extrc.clear_train_features()
 
