@@ -7,13 +7,17 @@ import pickle
 
 class Extractor:
 
-    train_hog = []
-    train_hof = []
-    train_mbh = []
+    train_data = {
+        'hog': [],
+        'hof': [],
+        'mbh': []
+    }
 
-    test_hog = []
-    test_hof = []
-    test_mbh = []
+    test_data = {
+        'hog': [],
+        'hof': [],
+        'mbh': []
+    }
 
     def __init__(self, params, data_helper:DataHelper):
         self.data_helper = data_helper
@@ -55,14 +59,18 @@ class Extractor:
         return features
 
     def clear_train_features(self):
-        self.train_hog = []
-        self.train_hof = []
-        self.train_mbh = []
+        self.train_data = {
+            'hog': [],
+            'hof': [],
+            'mbh': []
+        }
 
     def clear_test_features(self):
-        self.test_hog = []
-        self.test_hof = []
-        self.test_mbh = []
+        self.test_data = {
+            'hog': [],
+            'hof': [],
+            'mbh': []
+        }
 
     def prepare_train_features(self, type):
         pass
