@@ -39,6 +39,10 @@ class IdtExtractor(Extractor):
         self.test_data[type] = self.load_features(self.data_helper.feature_path + sep + FEATURE_TEST_PREFIX + '_' + type, return_dict=True)
 
     def prepare_split_features(self, split, type, save_file):
+        if os.path.exists(save_file + FEATURE_DICT_POSTFIX) and os.path.exists(save_file + FEATURE_CAT_POSTFIX):
+            print(save_file + FEATURE_DICT_POSTFIX + ' files are exists, skipping ...')
+            return
+
         features_dict = {}
         for video, label in split:
             # feature = self.load_txt(self.data_helper.data_path + sep + video + sep + FEATURE_FIXED_NAME.format(self.params.trajectory_length, self.params.temporal_stride))

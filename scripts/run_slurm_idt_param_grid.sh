@@ -1,6 +1,6 @@
 #!/bin/sh
 
-clusters=(16 32 64)
+clusters=(16)
 traj_length=(10 15 20)
 temp_stride=(3 6 9)
 
