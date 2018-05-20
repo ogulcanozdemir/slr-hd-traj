@@ -17,11 +17,11 @@
 
 # -= Resources =-
 
-#SBATCH -A ogozdemir
 #SBATCH -N 1          # nodes requested
 #SBATCH --job-name=idt-cpu-baseline
-#SBATCH --ntasks-per-node=8
+#SBATCH --ntasks-per-node=1
 #SBATCH --partition=main
+#SBATCH --mem-per-cpu=53000
 #SBATCH --output=/raid/users/oozdemir/code/tm-shd-slr/scripts/results/output/out-%j.out
 #SBATCH --error=/raid/users/oozdemir/code/tm-shd-slr/scripts/results/error/err-%j.err
 #SBATCH --time=02-00:00:00

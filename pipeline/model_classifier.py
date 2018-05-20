@@ -26,7 +26,7 @@ def classify_svm(train_data, train_labels, test_data, test_labels, save_file, is
     Cs = np.power(2, np.linspace(-3, 9, num=7))
 
     # svc = GridSearchCV(LinearSVC(class_weight='balanced', verbose=False), cv=5, param_grid=dict(C=Cs), n_jobs=-1)
-    svc = GridSearchCV(SVC(kernel='linear', class_weight='balanced', probability=True, verbose=False), cv=5, param_grid=dict(C=Cs), n_jobs=-1)
+    svc = GridSearchCV(SVC(kernel='linear', class_weight='balanced', probability=True, verbose=False), cv=5, param_grid=dict(C=Cs), n_jobs=1)
     svc.fit(train_data, np.transpose(train_labels).ravel())
     print("done in %0.3fs" % (time() - t0))
     print()
