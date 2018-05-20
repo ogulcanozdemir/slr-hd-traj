@@ -23,12 +23,14 @@ class DataHelper:
     train_labels = None
     test_labels = None
 
+    classmap = {}
+
     def __init__(self, params, exp_type):
         self.data_path = params.data_path
         self.experiment_path = params.experiment_path
         self.training_split_path = params.training_split_path
         self.test_split_path = params.test_split_path
-        self.feature_path = os.path.join(self.experiment_path, exp_type+'_l{}_t{}'.format(params.trajectory_length, params.temporal_stride))
+        self.feature_path = os.path.join(self.experiment_path, exp_type)
         self.save_path = os.path.join(self.feature_path, 'k{}'.format(params.num_clusters))
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
@@ -81,8 +83,15 @@ class DataHelper:
 class ToyDataHelper(DataHelper):
 
     def __init__(self, params, exp_type):
-        DataHelper.__init__(self, params, exp_type)
+        temp = None
+        if exp_type == 'idt':
+            temp = (exp_type + '_l{}_t{}').format(params.trajectory_length, params.temporal_stride)
+        elif exp_type == 'idt-hand':
+            temp = (exp_type + '_hr{}').format(params.hand_radius)
+
+        DataHelper.__init__(self, params, temp)
         self.key_frames = params.key_frames == 1 if True else False
+        self.prepare_classmap()
         self.prepare_splits()
 
     def prepare_splits(self):
@@ -90,10 +99,25 @@ class ToyDataHelper(DataHelper):
 
         training_split = self.load_split(self.training_split_path, key_frames=self.key_frames)
         for video, label in training_split.items():
-            self.training_split.append((video, label))
-            self.train_labels.append(label)
+            self.training_split.append((video, self.classmap[label]))
+            self.train_labels.append(self.classmap[label])
 
         test_split = self.load_split(self.test_split_path, key_frames=self.key_frames)
         for video, label in test_split.items():
-            self.test_split.append((video, label))
-            self.test_labels.append(label)
+            self.test_split.append((video, self.classmap[label]))
+            self.test_labels.append(self.classmap[label])
+
+    def prepare_classmap(self):
+        self.classmap = {
+            1: 1,
+            2: 2,
+            3: 3,
+            5: 4,
+            6: 5,
+            7: 6,
+            8: 7,
+            11: 8,
+            12: 9,
+            14: 10
+        }
+

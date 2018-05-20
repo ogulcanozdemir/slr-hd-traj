@@ -49,6 +49,8 @@ class IdtExtractor(Extractor):
         features_dict = {}
         for video, label in split:
             feature = self.load_txt(self.data_helper.data_path + sep + video + sep + FEATURE_FIXED_NAME.format(self.params.trajectory_length, self.params.temporal_stride))
+            if self.data_helper.feature_path is not None and self.data_helper.feature_path.contains('hr'):
+                feature = self.get_hand_trajectories_from_video(feature, video)
             # feature = self.load_txt(self.data_helper.data_path + sep + video + sep + FEATURE_FIXED_NAME_TEMP)
             features_dict[video] = (feature[:, self.intervals[type](feature.shape[1])], label)
 

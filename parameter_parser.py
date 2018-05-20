@@ -8,11 +8,32 @@ class ParameterParser:
     def __init__(self, exp_type):
         if exp_type == 'idt':
             self.params = self.parse_arguments_idt()
+        elif exp_type == 'idt-hand':
+            self.params = self.parse_arguments_idt_hand()
 
     @staticmethod
     def parse_arguments_idt():
         parser = argparse.ArgumentParser(description='IDT training')
         parser.add_argument('-dp', action='store', dest='data_path', help='data input path')
+        parser.add_argument('-trp', action='store', dest='training_split_path', help='training_split_path')
+        parser.add_argument('-tsp', action='store', dest='test_split_path', help='test split path')
+        parser.add_argument('-ep', action='store', dest='experiment_path', help='experiment path')
+        parser.add_argument('-kf', action='store', type=int, dest='key_frames', help='has key frames??')
+        parser.add_argument('-tl', action='store', type=int, dest='trajectory_length', help='trajectory length')
+        parser.add_argument('-nt', action='store', type=int, dest='temporal_stride', help='temporal stride')
+        parser.add_argument('-k', action='store', type=int, dest='num_clusters', help='number of clusters for gmm')
+
+        params = parser.parse_args()
+        for arg in vars(params):
+            print('\'' + arg + '\':', getattr(params, arg))
+
+        return params
+
+    @staticmethod
+    def parse_arguments_idt_hand():
+        parser = argparse.ArgumentParser(description='IDT hand training')
+        parser.add_argument('-dp', action='store', dest='data_path', help='data input path')
+        parser.add_argument('-sp', action='store', dest='skeleton_path', help='skeleton path')
         parser.add_argument('-trp', action='store', dest='training_split_path', help='training_split_path')
         parser.add_argument('-tsp', action='store', dest='test_split_path', help='test split path')
         parser.add_argument('-ep', action='store', dest='experiment_path', help='experiment path')

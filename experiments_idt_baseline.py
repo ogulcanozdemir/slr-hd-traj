@@ -35,12 +35,14 @@ def prepare_data(extrc, data_helper, type):
     extrc.save_features_to_pickle(data_helper.save_path + sep + 'fisher_data_' + type, {'data': data, 'labels': labels})
     return train_fisher, test_fisher
 
+
 if __name__ == '__main__':
     """ Read Parameters """
-    params = ParameterParser('idt').params
+    exp_type = 'idt'
+    params = ParameterParser(exp_type).params
 
     """ Read Dataset Parameters """
-    data_helper = ToyDataHelper(params, exp_type='idt')
+    data_helper = ToyDataHelper(params, exp_type=exp_type)
 
     """ Initialize Extractor """
     extractor = IdtExtractor(params, data_helper)

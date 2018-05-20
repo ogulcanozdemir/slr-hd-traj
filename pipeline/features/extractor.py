@@ -1,9 +1,11 @@
 from data.data_helper import DataHelper
 from pipeline.encoding import generate_fisher_vector
+from scipy.io import loadmat
+from scipy.spatial.distance import euclidean
 
 import numpy as np
 import pickle
-
+import os
 
 class Extractor:
 
@@ -39,6 +41,10 @@ class Extractor:
         return np.array(np.loadtxt(filename))
 
     @staticmethod
+    def load_mat(filename):
+        return loadmat(filename)
+
+    @staticmethod
     def save_features_to_pickle(filename, file):
         with open(filename + '.pickle', 'wb') as fd:
             pickle.dump(file, fd, protocol=4)
@@ -57,6 +63,45 @@ class Extractor:
             features = self.load_features_from_pickle(file + '_cat')
 
         return features
+
+    def get_hand_trajectories_from_video(self, features, video):
+        skeleton = self.load_mat(os.path.join(self.params.skeleton_path, video, 'skeleton.mat'))
+        sampled_features = self.check_hand_radius(features, skeleton['skeleton'], self.params.hand_radius)
+        return sampled_features
+
+    def check_hand_radius(self, features, skeleton, hand_radius):
+        tl = self.params.trajectory_length
+
+        local_features_temp = []
+        for f in features:
+            frame_idx = features[0]
+            trajStartX = features[1]
+            trajStartY = features[2]
+            trajEndX = features[2*tl-1]
+            trajEndY = features[2*tl]
+
+            # left hand
+            handLeftStartX = skeleton['HandLeft'](frame_idx - 15 + 1, 7) / 3
+            handLeftStartY = skeleton['HandLeft'](frame_idx - 15 + 1, 8) / 3
+            handLeftEndX = skeleton['HandLeft'](frame_idx, 7) / 3
+            handLeftEndY = skeleton['HandLeft'](frame_idx, 8) / 3
+
+            # right hand
+            handRightStartX = skeleton['HandRight'](frame_idx - 15 + 1, 7) / 3
+            handRightStartY = skeleton['HandRight'](frame_idx - 15 + 1, 8) / 3
+            handRightEndX = skeleton['HandRight'](frame_idx, 7) / 3
+            handRightEndY = skeleton['HandRight'](frame_idx, 8) / 3
+
+            distLeftStart = euclidean((trajStartX, trajStartY), (handLeftStartX, handLeftStartY))
+            distLeftEnd = euclidean((trajEndX, trajEndY), (handLeftEndX, handLeftEndY))
+            distRightStart = euclidean((trajStartX, trajStartY), (handRightStartX, handRightStartY))
+            distRightEnd = euclidean((trajEndX, trajEndY), (handRightEndX, handRightEndY))
+            if distLeftStart <= hand_radius and distLeftEnd <= hand_radius:
+                local_features_temp.append(f)
+            elif distRightStart <= hand_radius and distRightEnd <= hand_radius:
+                local_features_temp.append(f)
+
+        return local_features_temp
 
     def clear_train_features(self):
         self.train_data = {
