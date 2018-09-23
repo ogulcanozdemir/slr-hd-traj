@@ -1,0 +1,10 @@
+/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Traceback (most recent call last):
+  File "/raid/users/oozdemir/code/tm-shd-slr/experiments_fhd_tf.py", line 21, in <module>
+    train_data, test_data, train_labels, test_labels = extractor.prepare_data_for_tf(seq_len=140)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/fhd_extractor.py", line 256, in prepare_data_for_tf
+    new_d.append(sequence.pad_sequences(np.transpose(d), maxlen=seq_len, padding='post', dtype='float64'))
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/keras/_impl/keras/preprocessing/sequence.py", line 79, in pad_sequences
+    'Found non-iterable: ' + str(x))
+ValueError: `sequences` must be a list of iterables. Found non-iterable: 13.266497167618068

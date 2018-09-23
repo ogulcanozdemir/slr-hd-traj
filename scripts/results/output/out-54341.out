@@ -1,0 +1,11 @@
+'data_path': /raid/users/oozdemir/data/BosphorusSign/ToyDataset_features
+'training_split_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/toydata/train.txt
+'test_split_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/toydata/test.txt
+'class_ind_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/toydata/class_indices.txt
+'experiment_path': /raid/users/oozdemir/code/tm-shd-slr/experiments_hand/idt_hand_toydata_variance
+'key_frames': 0
+'trajectory_length': 20
+'temporal_stride': 3
+'num_clusters': 64
+'hand_radius': 45
+'normalized': False

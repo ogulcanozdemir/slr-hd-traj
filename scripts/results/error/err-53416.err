@@ -1,0 +1,16 @@
+/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+WARNING:tensorflow:From /raid/users/oozdemir/code/tm-shd-slr/pipeline/model_builder.py:77: softmax_cross_entropy_with_logits (from tensorflow.python.ops.nn_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+
+Future major versions of TensorFlow will allow gradients to flow
+into the labels input on backprop by default.
+
+See @{tf.nn.softmax_cross_entropy_with_logits_v2}.
+
+Traceback (most recent call last):
+  File "/raid/users/oozdemir/code/tm-shd-slr/experiments_fhd_tf.py", line 38, in <module>
+    save_file=data_helper.save_path + sep + 'results_' + const.HOG + '_' + const.HOF + '_' + const.MBH)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/model_builder.py", line 95, in train
+    reshaped_test = test[0].reshape((test[0].shape[0], self.seq_len, self.input_dim))
+ValueError: cannot reshape array of size 35259840 into shape (954,140,246)

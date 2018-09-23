@@ -1,39 +1,13 @@
 from pipeline.features.idt_extractor import IdtExtractor
-from pipeline.dimensionality_reduction import pca
-from pipeline.clustering import generate_gmms
 from pipeline.model_classifier import classify_svm
 
 from data.data_helper import ToyDataHelper
 from parameter_parser import ParameterParser
 
-from os.path import sep
-
+from os.path import sep, isfile, join
 import numpy as np
 
-
-def prepare_data(extrc, data_helper, type):
-    extrc.read_training_features(type)
-    extrc.prepare_train_features(type, return_dict=False)
-
-    model_pca = pca(extrc.train_data[type])
-    train_pca = model_pca.transform(extrc.train_data[type])
-    model_gmm = generate_gmms(train_pca, _clusters=params.num_clusters)
-    extrc.save_features_to_pickle(data_helper.save_path + sep + 'model_' + type, {'pca': model_pca, 'gmm': model_gmm})
-
-    extrc.clear_train_features()
-    extrc.prepare_train_features(type, return_dict=True)
-    train_fisher = extrc.get_fisher_vectors(extrc.train_data[type], model_pca, model_gmm)
-    extrc.clear_train_features()
-
-    extrc.read_test_features(type)
-    extrc.prepare_test_features(type)
-    test_fisher = extrc.get_fisher_vectors(extrc.test_data[type], model_pca, model_gmm)
-    extrc.clear_test_features()
-
-    data = {'train_' + type + '_fisher': train_fisher, 'test_' + type + '_fisher': test_fisher}
-    labels = {'train_labels': data_helper.train_labels, 'test_labels': data_helper.test_labels}
-    extrc.save_features_to_pickle(data_helper.save_path + sep + 'fisher_data_' + type, {'data': data, 'labels': labels})
-    return train_fisher, test_fisher
+import pipeline.constants as const
 
 
 if __name__ == '__main__':
@@ -48,33 +22,54 @@ if __name__ == '__main__':
     extractor = IdtExtractor(params, data_helper)
 
     """ Extract fisher vectors """
-    train_hog_fisher, test_hog_fisher = prepare_data(extractor, data_helper, 'hog')
-    train_hof_fisher, test_hof_fisher = prepare_data(extractor, data_helper, 'hof')
-    train_mbh_fisher, test_mbh_fisher = prepare_data(extractor, data_helper, 'mbh')
+    train_traj_fisher, test_traj_fisher, train_labels, test_labels = extractor.prepare_data(const.TRAJ)
+    train_hog_fisher, test_hog_fisher, _, _ = extractor.prepare_data(const.HOG)
+    train_hof_fisher, test_hof_fisher, _, _ = extractor.prepare_data(const.HOF)
+    train_mbh_fisher, test_mbh_fisher, _, _ = extractor.prepare_data(const.MBH)
 
-    ## Classifiy ##
-    classify_svm(train_hog_fisher, data_helper.train_labels,
-                 test_hog_fisher, data_helper.test_labels,
-                 save_file=data_helper.save_path + sep + 'results_hog')
-    classify_svm(train_hof_fisher, data_helper.train_labels,
-                 test_hof_fisher, data_helper.test_labels,
-                 save_file=data_helper.save_path + sep + 'results_hof')
-    classify_svm(train_mbh_fisher, data_helper.train_labels,
-                 test_mbh_fisher, data_helper.test_labels,
-                 save_file=data_helper.save_path + sep  + 'results_mbh')
+    _n_jobs = 20
 
-    classify_svm(np.hstack((train_hog_fisher, train_hof_fisher)), data_helper.train_labels,
-                 np.hstack((test_hog_fisher, test_hof_fisher)), data_helper.test_labels,
-                 save_file=data_helper.save_path + sep + 'results_hog_hof')
-    classify_svm(np.hstack((train_hog_fisher, train_mbh_fisher)), data_helper.train_labels,
-                 np.hstack((test_hog_fisher, test_mbh_fisher)), data_helper.test_labels,
-                 save_file=data_helper.save_path + sep + 'results_hog_mbh')
-    classify_svm(np.hstack((train_hof_fisher, train_mbh_fisher)), data_helper.train_labels,
-                 np.hstack((test_hof_fisher, test_mbh_fisher)), data_helper.test_labels,
-                 save_file=data_helper.save_path + sep + 'results_hof_mbh')
+    results_prefix = 'results_'
 
-    classify_svm(np.hstack((train_hog_fisher, train_hof_fisher, train_mbh_fisher)), data_helper.train_labels,
-                 np.hstack((test_hog_fisher, test_hof_fisher, test_mbh_fisher)), data_helper.test_labels,
-                 save_file=data_helper.save_path + sep + 'results_hog_hof_mbh')
+    # Classifiy ##
+    # classify_svm(train_traj_fisher, train_labels,
+    #              test_traj_fisher, test_labels,
+    #              save_file=data_helper.save_path + sep + results_prefix + const.TRAJ,
+    #              _njobs=_n_jobs,
+    #              is_logging=True)
+    # classify_svm(train_hog_fisher, train_labels,
+    #              test_hog_fisher, test_labels,
+    #              save_file=data_helper.save_path + sep + results_prefix + const.HOG,
+    #              _njobs=_n_jobs)
+    # classify_svm(train_hof_fisher, train_labels,
+    #              test_hof_fisher, test_labels,
+    #              save_file=data_helper.save_path + sep + results_prefix + const.HOF,
+    #              _njobs=_n_jobs)
+    # classify_svm(train_mbh_fisher, train_labels,
+    #              test_mbh_fisher, test_labels,
+    #              save_file=data_helper.save_path + sep  + results_prefix + const.MBH,
+    #              _njobs=_n_jobs)
+    #
+    # classify_svm(np.hstack((train_hog_fisher, train_hof_fisher)), train_labels,
+    #              np.hstack((test_hog_fisher, test_hof_fisher)), test_labels,
+    #              save_file=data_helper.save_path + sep + results_prefix + const.HOG + '_' + const.HOF,
+    #              _njobs=_n_jobs)
+    # classify_svm(np.hstack((train_hog_fisher, train_mbh_fisher)), train_labels,
+    #              np.hstack((test_hog_fisher, test_mbh_fisher)), test_labels,
+    #              save_file=data_helper.save_path + sep + results_prefix + const.HOG + '_' + const.MBH,
+    #              _njobs=_n_jobs)
+    # classify_svm(np.hstack((train_hof_fisher, train_mbh_fisher)), train_labels,
+    #              np.hstack((test_hof_fisher, test_mbh_fisher)), test_labels,
+    #              save_file=data_helper.save_path + sep + results_prefix + const.HOF + '_' + const.MBH,
+    #              _njobs=_n_jobs)
+    #
+    classify_svm(np.hstack((train_hog_fisher, train_hof_fisher, train_mbh_fisher)), train_labels,
+                 np.hstack((test_hog_fisher, test_hof_fisher, test_mbh_fisher)), test_labels,
+                 save_file=data_helper.save_path + sep + results_prefix + const.HOG + '_' + const.HOF + '_' + const.MBH,
+                 _njobs=_n_jobs)
+    # classify_svm(np.hstack((train_traj_fisher, train_hog_fisher, train_hof_fisher, train_mbh_fisher)), train_labels,
+    #              np.hstack((test_traj_fisher, test_hog_fisher, test_hof_fisher, test_mbh_fisher)), test_labels,
+    #              save_file=data_helper.save_path + sep + results_prefix + const.TRAJ + '_' + const.HOG + '_' + const.HOF + '_' + const.MBH,
+    #              _njobs=_n_jobs)
 
 

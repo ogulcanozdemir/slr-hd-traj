@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/raid/users/oozdemir/code/tm-shd-slr/experiments_idt_hand.py", line 25, in <module>
+    train_traj_fisher, test_traj_fisher, train_labels, test_labels = extractor.prepare_data(const.TRAJ)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/idt_extractor.py", line 105, in prepare_data
+    self.read_training_features(type)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/idt_extractor.py", line 36, in read_training_features
+    self.prepare_split_features(self.data_helper.training_split, save_file=self.data_helper.feature_path + sep + FEATURE_TRAIN_PREFIX)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/idt_extractor.py", line 60, in prepare_split_features
+    feature = self.get_hand_trajectories_from_video(feature, video)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/extractor.py", line 82, in get_hand_trajectories_from_video
+    skeleton = self.load_mat(os.path.join('/raid/users/oozdemir/data/BosphorusSign/ToyDataset', video, 'skeleton.mat'))
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/extractor.py", line 55, in load_mat
+    return loadmat(filename)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/scipy/io/matlab/mio.py", line 141, in loadmat
+    MR, file_opened = mat_reader_factory(file_name, appendmat, **kwargs)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/scipy/io/matlab/mio.py", line 64, in mat_reader_factory
+    byte_stream, file_opened = _open_file(file_name, appendmat)
+TypeError: 'NoneType' object is not iterable

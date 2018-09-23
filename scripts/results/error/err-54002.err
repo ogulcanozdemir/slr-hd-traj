@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/raid/users/oozdemir/code/tm-shd-slr/experiments_idt_hand.py", line 25, in <module>
+    train_traj_fisher, test_traj_fisher, train_labels, test_labels = extractor.prepare_data(const.TRAJ)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/idt_extractor.py", line 105, in prepare_data
+    self.read_training_features(type)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/idt_extractor.py", line 36, in read_training_features
+    self.prepare_split_features(self.data_helper.training_split, save_file=self.data_helper.feature_path + sep + FEATURE_TRAIN_PREFIX)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/idt_extractor.py", line 57, in prepare_split_features
+    feature = self.load_txt(self.data_helper.data_path + sep + video + sep + FEATURE_FIXED_NAME.format(self.params.trajectory_length, self.params.temporal_stride))
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/extractor.py", line 51, in load_txt
+    return np.array(np.loadtxt(filename))
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/numpy/lib/npyio.py", line 917, in loadtxt
+    fh = np.lib._datasource.open(fname, 'rt', encoding=encoding)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/numpy/lib/_datasource.py", line 260, in open
+    return ds.open(path, mode, encoding=encoding, newline=newline)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/numpy/lib/_datasource.py", line 616, in open
+    raise IOError("%s not found." % path)
+OSError: /raid/users/oozdemir/data/BosphorusSign/ToyDataset/1/050_00036/color_scaled_L20_T3.features not found.

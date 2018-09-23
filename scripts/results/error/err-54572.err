@@ -1,0 +1,14 @@
+/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Traceback (most recent call last):
+  File "/raid/users/oozdemir/code/tm-shd-slr/experiments_fhd.py", line 25, in <module>
+    train_hog_fisher, test_hog_fisher, train_labels, test_labels = extractor.prepare_data(const.HOG)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/fhd_extractor.py", line 184, in prepare_data
+    self.read_training_features()
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/fhd_extractor.py", line 167, in read_training_features
+    self.prepare_split_features(self.data_helper.training_split, save_file=self.data_helper.feature_path + sep + FEATURE_TRAIN_PREFIX)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/fhd_extractor.py", line 136, in prepare_split_features
+    feature[const.HOG] = self.get_temporal_average(feature[const.HOG])
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/features/fhd_extractor.py", line 270, in get_temporal_average
+    rpt = np.mod(feature.shape[0], nt)
+TypeError: unsupported operand type(s) for %: 'int' and 'NoneType'

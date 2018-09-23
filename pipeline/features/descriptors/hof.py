@@ -1,17 +1,17 @@
-from scipy import sqrt, pi, arctan2, cos, sin
+from scipy import sqrt, arctan2, cos, sin
 from scipy.ndimage import uniform_filter
 
 import cv2
 import numpy as np
 
 
+
 def calc_optical_flow_from_frame(image_prev, image_next):
     image_prev = cv2.cvtColor(image_prev.astype(np.float32), cv2.COLOR_RGB2GRAY)
     image_next = cv2.cvtColor(image_next.astype(np.float32), cv2.COLOR_RGB2GRAY)
-
-    # get optical flow
-    # flow = cv2.calcOpticalFlowFarneback(image_prev, image_next, flow=None, pyr_scale=.5, levels=3, winsize=9, iterations=1, poly_n=3, poly_sigma=1.1, flags=cv2.OPTFLOW_FARNEBACK_GAUSSIAN)
     flow = cv2.calcOpticalFlowFarneback(image_prev, image_next, None, pyr_scale=0.5, levels=3, winsize=9, iterations=1, poly_n=3, poly_sigma=1.1, flags=0)
+    # [0.5, 3, 15, 3, 5, 1.2, 0]
+
     return flow
 
 
@@ -21,11 +21,13 @@ def calc_optical_flow_from_video(frames):
     for f in np.arange(0, frames.shape[0]-1):
         flows.append(calc_optical_flow_from_frame(frames[f], frames[f+1]))
 
-    return flows
+    return np.asarray(flows)
 
 
-def extract_hof_from_flow(flow, num_orientations=9, cell_size=(32,32), block_size=(4,4), visualize=True):
-    flow = cv2.resize(flow, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
+# cell_size and block_size parameters should be tuple
+def extract_hof_from_flow(flow, num_orientations, cell_size, block_size, visualize=True, resize=False):
+    if resize:
+        flow = cv2.resize(flow, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
 
     if visualize:
         fd, hof_image = hof(flow, orientations=num_orientations, pixels_per_cell=cell_size, cells_per_block=block_size, visualise=visualize, normalise=False, motion_threshold=1.)
@@ -34,28 +36,30 @@ def extract_hof_from_flow(flow, num_orientations=9, cell_size=(32,32), block_siz
         fd = hof(flow, orientations=num_orientations, pixels_per_cell=cell_size, cells_per_block=block_size, visualise=visualize, normalise=False, motion_threshold=1.)
         return fd
 
+def extract_hof_from_flow_seq(flow, num_orientations=9, cell_size=15, block_size=4, visualize=False, resize=False):
+    cell_size = (cell_size, cell_size)
+    block_size = (block_size, block_size)
 
-def extract_hof_from_flow_seq(flows, num_orientations=9, cell_size=(32,32), block_size=(4,4), visualize=True):
     hof_fds = []
     hof_images = []
 
-    for f in np.arange(0, flows.shape[0]):
+    for f in np.arange(0, flow.shape[0]):
         if visualize:
-            fd, hof_image = extract_hof_from_flow(flows[f, :, :, :], num_orientations=num_orientations, cell_size=cell_size, block_size=block_size, visualize=visualize)
+            fd, hof_image = extract_hof_from_flow(flow[f, :, :, :], num_orientations=num_orientations, cell_size=cell_size, block_size=block_size, visualize=visualize, resize=resize)
             hof_images.append(hof_image)
         else:
-            fd = extract_hof_from_flow(flows[f, :, :, :], num_orientations=num_orientations, cell_size=cell_size, block_size=block_size, visualize=visualize)
+            fd = extract_hof_from_flow(flow[f, :, :, :], num_orientations=num_orientations, cell_size=cell_size, block_size=block_size, visualize=visualize, resize=resize)
 
         hof_fds.append(fd)
 
     if visualize:
-        return hof_fds, hof_images
+        return np.asarray(hof_fds), hof_images
     else:
-        return hof_fds
+        return np.asarray(hof_fds)
 
 
-# L2 norm by default
-def hof(flow, orientations=9, pixels_per_cell=(32,32), cells_per_block=(4,4), visualise=False, normalise=False, motion_threshold=1.):
+# L2 norm by default - and cell_size and block_size parameters should be tuple
+def hof(flow, orientations, pixels_per_cell, cells_per_block, visualise=False, normalise=False, motion_threshold=1.):
 
     flow = np.atleast_2d(flow)
 

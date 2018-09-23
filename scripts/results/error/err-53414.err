@@ -1,0 +1,36 @@
+/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Traceback (most recent call last):
+  File "/raid/users/oozdemir/code/tm-shd-slr/experiments_fhd_tf.py", line 36, in <module>
+    model.build()
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/model_builder.py", line 64, in build
+    out = self.get_lstm_model()
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/model_builder.py", line 174, in get_lstm_model
+    outputs, states = tf.nn.bidirectional_dynamic_rnn(lstm_fw_cells, lstm_bw_cells, self.X, dtype=tf.float32, time_major=False)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/rnn.py", line 412, in bidirectional_dynamic_rnn
+    time_major=time_major, scope=fw_scope)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/rnn.py", line 627, in dynamic_rnn
+    dtype=dtype)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/rnn.py", line 824, in _dynamic_rnn_loop
+    swap_memory=swap_memory)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/control_flow_ops.py", line 3224, in while_loop
+    result = loop_context.BuildLoop(cond, body, loop_vars, shape_invariants)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/control_flow_ops.py", line 2956, in BuildLoop
+    pred, body, original_loop_vars, loop_vars, shape_invariants)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/control_flow_ops.py", line 2893, in _BuildLoop
+    body_result = body(*packed_vars_for_body)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/control_flow_ops.py", line 3194, in <lambda>
+    body = lambda i, lv: (i + 1, orig_body(*lv))
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/rnn.py", line 795, in _time_step
+    (output, new_state) = call_cell()
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/rnn.py", line 781, in <lambda>
+    call_cell = lambda: cell(input_t, state)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/rnn_cell_impl.py", line 1099, in __call__
+    output, new_state = self._cell(inputs, state, scope=scope)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/rnn_cell_impl.py", line 339, in __call__
+    *args, **kwargs)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/layers/base.py", line 717, in __call__
+    outputs = self.call(inputs, *args, **kwargs)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/rnn_cell_impl.py", line 844, in call
+    self._activation(j))
+TypeError: 'str' object is not callable

@@ -24,14 +24,23 @@ class DataHelper:
     test_labels = None
 
     classmap = {}
+    num_classes = None
 
     def __init__(self, params, exp_type):
         self.data_path = params.data_path
         self.experiment_path = params.experiment_path
         self.training_split_path = params.training_split_path
         self.test_split_path = params.test_split_path
+        self.class_ind_path = params.class_ind_path
         self.feature_path = os.path.join(self.experiment_path, exp_type)
-        self.save_path = os.path.join(self.feature_path, 'k{}'.format(params.num_clusters))
+
+        if hasattr(params, 'num_clusters'):
+            self.save_path = os.path.join(self.feature_path, 'k{}'.format(params.num_clusters))
+        elif hasattr(params, 'nh_lstm'):
+            self.save_path = os.path.join(self.feature_path, 'nhlstm{}'.format(params.nh_lstm))
+        else:
+            self.save_path = self.feature_path
+
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
 
@@ -48,7 +57,7 @@ class DataHelper:
             for line in zip(f):
                 line_split = line[0][:-1].split(' ')
                 video_split = line_split[0].split('/')
-                video_label = int(video_split[-2])
+                video_label = int(line_split[1])
 
                 if key_frames:
                     key_frames = np.asarray(line_split[1].split(','), dtype=np.int) - 1
@@ -59,7 +68,21 @@ class DataHelper:
                     _split[line_split[0]] = (video_label)
             f.close()
 
-        return OrderedDict(sorted(_split.items()))
+        return _split
+
+    @staticmethod
+    def load_class_indices(class_ind_path):
+        _indices = {}
+        with open(class_ind_path, 'r') as f:
+            for line in zip(f):
+                line_split = line[0][:-1].split(':')
+                original_label = int(line_split[0])
+                mapped_label = int(line_split[1])
+                _indices[original_label] = mapped_label
+
+            f.close()
+
+        return _indices
 
     @staticmethod
     def get_concatenated_data(type, descriptors, labels):
@@ -86,8 +109,12 @@ class ToyDataHelper(DataHelper):
         temp = None
         if exp_type == 'idt':
             temp = (exp_type + '_l{}_t{}').format(params.trajectory_length, params.temporal_stride)
-        elif exp_type == 'idt-hand':
-            temp = (exp_type + '_hr{}').format(params.hand_radius)
+        elif exp_type == 'idt_hand':
+            temp = (exp_type + '_hr{}_l{}_t{}').format(params.hand_radius, params.trajectory_length, params.temporal_stride)
+        elif exp_type == 'fhd':
+            temp = (exp_type + '_cp{}_nc{}_nbl{}_nbin{}').format(params.crop_size, params.ncell, params.nblock, params.nbins)
+        elif exp_type == 'fhd_tf':
+            temp = (exp_type + '_lr{}_e{}_b{}_nhlstm{}_dlstm{}').format(params.learning_rate, params.epochs, params.batch_size, params.nh_lstm, params.d_lstm)
 
         DataHelper.__init__(self, params, temp)
         self.key_frames = params.key_frames == 1 if True else False
@@ -108,16 +135,6 @@ class ToyDataHelper(DataHelper):
             self.test_labels.append(self.classmap[label])
 
     def prepare_classmap(self):
-        self.classmap = {
-            1: 1,
-            2: 2,
-            3: 3,
-            5: 4,
-            6: 5,
-            7: 6,
-            8: 7,
-            11: 8,
-            12: 9,
-            14: 10
-        }
+        self.classmap = self.load_class_indices(self.class_ind_path)
+        self.num_classes = len(self.classmap)
 

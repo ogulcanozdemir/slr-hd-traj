@@ -1,0 +1,31 @@
+'data_path': /raid/users/oozdemir/data/BosphorusSign/ToyDataset_fhd_scaled
+'desc_path': /raid/users/oozdemir/data/BosphorusSign/ToyDataset_fhd_scaled
+'training_split_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/toydata/train.txt
+'test_split_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/toydata/test.txt
+'class_ind_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/toydata/class_indices.txt
+'experiment_path': /raid/users/oozdemir/code/tm-shd-slr/experiments_2/fhd
+'key_frames': None
+'temporal_stride': None
+'num_clusters': 32
+'normalized': False
+'crop_size': 80
+'nbins': 8
+'ncell': 40
+'nblock': 2
+'resize': False
+/raid/users/oozdemir/code/tm-shd-slr/experiments_2/fhd/fhd_cp80_nc40_nbl2_nbin8/train_fhd_dict files are exists, skipping ...
+PCA and GMM models are not exists for hog, generating... 4.3912 seconds
+Generating Training Fisher Vectors for hog... 0.1873 seconds
+/raid/users/oozdemir/code/tm-shd-slr/experiments_2/fhd/fhd_cp80_nc40_nbl2_nbin8/test_fhd_dict files are exists, skipping ...
+Generating Test Fisher Vectors for hog... 0.0443 seconds
+/raid/users/oozdemir/code/tm-shd-slr/experiments_2/fhd/fhd_cp80_nc40_nbl2_nbin8/train_fhd_dict files are exists, skipping ...
+PCA and GMM models are not exists for hof, generating... 7.9657 seconds
+Generating Training Fisher Vectors for hof... 0.1708 seconds
+/raid/users/oozdemir/code/tm-shd-slr/experiments_2/fhd/fhd_cp80_nc40_nbl2_nbin8/test_fhd_dict files are exists, skipping ...
+Generating Test Fisher Vectors for hof... 0.0486 seconds
+/raid/users/oozdemir/code/tm-shd-slr/experiments_2/fhd/fhd_cp80_nc40_nbl2_nbin8/train_fhd_dict files are exists, skipping ...
+PCA and GMM models are not exists for mbh, generating... 3.3386 seconds
+Generating Training Fisher Vectors for mbh... 0.3221 seconds
+/raid/users/oozdemir/code/tm-shd-slr/experiments_2/fhd/fhd_cp80_nc40_nbl2_nbin8/test_fhd_dict files are exists, skipping ...
+Generating Test Fisher Vectors for mbh... 0.0699 seconds
+Finished...

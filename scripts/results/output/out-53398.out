@@ -1,0 +1,19 @@
+'data_path': /raid/users/oozdemir/data/BosphorusSign/General_fhd
+'desc_path': /raid/users/oozdemir/data/BosphorusSign/General_fhd
+'training_split_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/general/train.txt
+'test_split_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/general/test.txt
+'class_ind_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/general/class_indices.txt
+'experiment_path': /raid/users/oozdemir/code/tm-shd-slr/experiments_2/fhd_general_temporal_lstm
+'key_frames': 0
+'learning_rate': 1e-06
+'epochs': 1000
+'batch_size': 128
+'nh_lstm': 500
+'d_lstm': 0.5
+'nh_fc': None
+'d_fc': None
+'crop_size': 80
+'nbins': 8
+'ncell': 40
+'nblock': 2
+dataset max sequence length (max frame count): 179

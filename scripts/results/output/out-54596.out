@@ -1,0 +1,18 @@
+'data_path': /raid/users/oozdemir/data/BosphorusSign/General_fhd
+'desc_path': /raid/users/oozdemir/data/BosphorusSign/General_fhd
+'training_split_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/general/train-copy.txt
+'test_split_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/general/test-copy.txt
+'class_ind_path': /raid/users/oozdemir/code/tm-shd-slr/data/splits/general/class_indices-copy.txt
+'experiment_path': /raid/users/oozdemir/code/tm-shd-slr/experiments_2/fhd_general_inconsistent
+'key_frames': None
+'num_clusters': 64
+'normalized': False
+'crop_size': 80
+'nbins': 8
+'ncell': 40
+'nblock': 2
+'resize': False
+Fisher data is exists for hog, loading... 0.2528 seconds
+Fisher data is exists for hof, loading... 0.2552 seconds
+Fisher data is exists for mbh, loading... 0.4870 seconds
+Finished...

@@ -7,12 +7,8 @@ import numpy as np
 import os
 
 
-def read_video(video_name, aligned=False):
-    if aligned:
-        video_name = os.path.join(video_name, 'aligned_color.avi')
-    else:
-        video_name = os.path.join(video_name, 'color.mp4')
-
+def read_video(video_name):
+    video_name = os.path.join(video_name, 'color.mp4')
     cap = cv2.VideoCapture(video_name)
     frames = []
     try:
@@ -20,17 +16,14 @@ def read_video(video_name, aligned=False):
             ret, frame = cap.read()
             if not ret:
                 cap.release()
-                # print("Released Video Resource")
                 break
 
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # frame = np.swapaxes(frame, 0, 1)
             frames.append(frame)
     except KeyboardInterrupt:
         cap.release()
-        # print("Released Video Resource")
 
-    return frames
+    return np.asarray(frames)
 
 
 def grid_display(frames, no_of_columns=5, figsize=(20, 10), color_map=None):

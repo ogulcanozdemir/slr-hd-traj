@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/raid/users/oozdemir/code/tm-shd-slr/experiments_idt_baseline.py", line 69, in <module>
+    _njobs=_n_jobs)
+  File "/raid/users/oozdemir/code/tm-shd-slr/pipeline/model_classifier.py", line 42, in classify_svm
+    svc.fit(train_data, np.transpose(train_labels).ravel())
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/sklearn/model_selection/_search.py", line 639, in fit
+    cv.split(X, y, groups)))
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/sklearn/externals/joblib/parallel.py", line 789, in __call__
+    self.retrieve()
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/sklearn/externals/joblib/parallel.py", line 699, in retrieve
+    self._output.extend(job.get(timeout=self.timeout))
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/multiprocessing/pool.py", line 644, in get
+    raise self._value
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/multiprocessing/pool.py", line 424, in _handle_tasks
+    put(task)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/sklearn/externals/joblib/pool.py", line 371, in send
+    CustomizablePickler(buffer, self._reducers).dump(obj)
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/sklearn/externals/joblib/pool.py", line 240, in __call__
+    for dumped_filename in dump(a, filename):
+  File "/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/sklearn/externals/joblib/numpy_pickle.py", line 483, in dump
+    with open(filename, 'wb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/joblib_memmaping_pool_58807_47562478401576/58807-47562479371656-dea961e69d556af6b01121e88cad42b8.pkl'

@@ -123,8 +123,8 @@ class DescExtractor(Extractor):
         print('%.4f seconds' % (clock() - t0))
 
     @staticmethod
-    def get_frames_from_video(video_path, aligned=True):
-        frames = np.asarray(read_video(video_path, aligned=aligned))
+    def get_frames_from_video(video_path):
+        frames = read_video(video_path)
         return frames
 
     @staticmethod
@@ -244,12 +244,12 @@ class DescExtractor(Extractor):
             self.test_labels.append(ts[1])
 
     @staticmethod
-    def get_fisher_vectors(data, pca, gmm):
+    def get_fisher_vectors(data, pca, gmm, is_normalized):
         data_fv = []
 
         for d in data:
             pca_d = pca.transform(d)
-            fv_d = generate_fisher_vector(pca_d, gmm['means'], gmm['covars'], gmm['priors'])
+            fv_d = generate_fisher_vector(pca_d, gmm['means'], gmm['covars'], gmm['priors'], _normalized=is_normalized)
             data_fv.append(np.transpose(fv_d))
 
         return np.asarray(data_fv)

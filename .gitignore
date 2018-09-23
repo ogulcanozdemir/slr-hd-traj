@@ -103,3 +103,8 @@ ENV/
 data/features/
 data/ToyDataset/
 experiments/
+experiments_2/
+experiments_hand/
+experiments_thesis/
+experiments_toydata/
+examples/
