@@ -1,8 +1,0 @@
-/raid/users/oozdemir/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
-  from ._conv import register_converters as _register_converters
-Traceback (most recent call last):
-  File "/raid/users/oozdemir/code/tm-shd-slr/experiments_fhd.py", line 18, in <module>
-    data_helper = ToyDataHelper(params, exp_type=exp_type)
-  File "/raid/users/oozdemir/code/tm-shd-slr/data/data_helper.py", line 115, in __init__
-    temp = (exp_type + '_cp{}_nc{}_nbl{}_nbin{}_nt{}').format(params.crop_size, params.ncell, params.nblock, params.nbins, params.temporal_stride)
-AttributeError: 'Namespace' object has no attribute 'temporal_stride'
